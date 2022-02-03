@@ -9,46 +9,83 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import tools.Tools;
 
-public class Player implements Runnable {
-
-	@Override
-	public void run() {
+public class Player{
+	private static Scanner tec = new Scanner(System.in);
+	
+	
+	private String usuario;
+	private BufferedWriter exit;
+	BufferedReader entry;
+	
+	public void playerStart() {
 		try {
 			Socket s = new Socket(InetAddress.getByName("localhost"),2001);	
-			BufferedWriter exit = new BufferedWriter (new OutputStreamWriter (s.getOutputStream ()));
-			BufferedReader entry = new BufferedReader (new InputStreamReader (s.getInputStream ()));
+			exit = new BufferedWriter (new OutputStreamWriter (s.getOutputStream ()));
+			entry = new BufferedReader (new InputStreamReader (s.getInputStream ()));
 			
+			System.out.println("Introduce Nombre Usuario: ");
+			usuario = tec.next();
+			
+			//Welcome message
 			System.out.println(entry.readLine());
-			int c = 0;
 			String msgReturn;
 			do {
-				sendMessage(exit, String.valueOf(Tools.randomNumber(1, 750)));
+				//Your bet
+				sendMessage(tec.next());
 				msgReturn = entry.readLine();
+				//Error or info message
 				System.out.println(msgReturn);
 			} while (!msgReturn.contains("Ok"));
 			
+			//First card message
+			readPlayerRound();
+
 			
-			for (int i = 0; i < 2; i++) {
-				msgReturn = entry.readLine();
-				while (msgReturn.contains("?")) {
-					sendMessage(exit, String.valueOf(Tools.randomNumber(1, 11)));
-				}
-			}
+			//Coupier first card message
 			System.out.println(entry.readLine());
 			
+			boolean playerFinish = false;
+			boolean coupierFinish = false;
 			boolean gameOver = false;
 			while (!gameOver) {
-				msgReturn = entry.readLine();
-				System.out.println(msgReturn);
-				while (msgReturn.contains("?")) {
-					sendMessage(exit, String.valueOf(Tools.randomNumber(1, 11)));
+				String msgOver = entry.readLine();
+				if (msgOver.contains("OVER")) {
+					// Stand or hit message
+					System.out.println(msgOver);
+					gameOver = true;
+				} else {
+					if (!playerFinish) {
+						// Stand or hit message
+						System.out.println(msgOver);
+						String msg = tec.next();
+						sendMessage(msg);
+						if (msg.toUpperCase().equals("HIT")) {
+							//Your card message
+							playerFinish = readPlayerRound();
+						} else {
+							playerFinish = true;
+						}
+						System.out.println("FIN P " + playerFinish);
+					}
+					
+					if (!coupierFinish) {
+						//Coupier message
+						String msg = entry.readLine();
+						if (msg.contains("stands")) {
+							coupierFinish = true;
+						}
+						System.out.println(msg);
+						System.out.println("FIN C " + coupierFinish);
+					}
+					
 				}
-				System.out.println(entry.readLine());
+				
 			}
-			
+			s.close();
 		} catch (SocketException e) {
 			e.printStackTrace(); 
 		}catch (UnknownHostException e) {
@@ -58,7 +95,29 @@ public class Player implements Runnable {
 		}
 	}
 	
-	private void sendMessage(BufferedWriter exit, String msg) throws IOException {
+	private boolean readPlayerRound() throws IOException {
+		boolean finish = false;
+		String msgReturn = entry.readLine();
+		if (msgReturn.contains("want")) {
+			System.out.println(msgReturn);
+			int value = tec.nextInt();
+			while (value != 1 && value != 11) {
+				System.out.println("Do you want a 1 or a 11?");
+				value = tec.nextInt();
+			}
+			msgReturn = entry.readLine();
+		}
+		
+		if (msgReturn.contains("stand")) {
+			finish = true;
+		}
+		
+		System.out.println(msgReturn);
+		
+		return finish;
+	}
+	
+	private void sendMessage(String msg) throws IOException {
 		exit.write(msg + System.lineSeparator());
 		exit.flush();
 	}
