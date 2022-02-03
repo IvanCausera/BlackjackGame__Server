@@ -11,7 +11,7 @@ public class Server {
 		try {
 			ServerSocket ss = new ServerSocket(2001);
 			ExecutorService executor = (ExecutorService) Executors.newCachedThreadPool();
-			while (true) executor.submit(new Croupier(ss.accept(), ss.accept()));
+			while (true) executor.submit(new Croupier(ss.accept()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
