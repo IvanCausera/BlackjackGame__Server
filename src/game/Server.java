@@ -19,7 +19,6 @@ public class Server {
 			
 			//Waits for new players and then starts the coupier with the player
 			while (true) {
-				//System.out.println("Server Waiting");
 				s = ss.accept();
 				
 				executor.submit(new Croupier(s));
