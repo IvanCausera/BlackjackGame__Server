@@ -16,7 +16,7 @@ public class MainPlayer {
 	private final int MINBET = 2;
 	private final int MAXBET = 500;
 
-	private String usuario;
+	private String user;
 	private DataOutputStream writer;
 	private DataInputStream reader;
 
@@ -28,29 +28,31 @@ public class MainPlayer {
 
 	public void playerStart() {
 		try {
+			// Initialize connection
 			Socket s = new Socket(InetAddress.getByName("localhost"), 2001);
 			writer = new DataOutputStream(s.getOutputStream());
 			reader = new DataInputStream(s.getInputStream());
 
-			System.out.println("Introduce Nombre Usuario: ");
-			usuario = tec.next();
+			System.out.println("Enter your username: ");
+			user = tec.next();
 
 			// Welcome message
-			System.out.println("Welcome player, How much do you want to bet?");
+			System.out.println("Welcome " + user + ", how much do you want to bet?");
 
 			int bet = 0;
 			boolean ok = true;
 			do {
 				try {
+					tec.nextLine();
 					// Obtain your bet
 					bet = tec.nextInt();
-
+					
 					if (bet < MINBET || bet > MAXBET) {
 						System.out.println("Your bet has to be over 2 $ and under 500 $, how much do you want to bet?");
 						ok = false;
 					} else
 						ok = true;
-				} catch (InputMismatchException e) { //TODO error
+				} catch (InputMismatchException e) {
 					System.out.println("Incorrect Format, how much do you want to bet?");
 					ok = false;
 				}
@@ -61,7 +63,7 @@ public class MainPlayer {
 
 			// Read jackpot
 			System.out.println(
-					"Ok player, you bet  " + bet + " $, and the Jackpot Prize are " + reader.readDouble() + " $");
+					"Ok " + user + ", you bet  " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
 
 			// First player round
 			playerRound();
@@ -120,9 +122,10 @@ public class MainPlayer {
 			do {
 				System.out.println("Your card is " + cardName + " Do you want 1 or 11?");
 				try {
+					tec.nextLine();
 					score = tec.nextInt();
 					tec.nextLine();
-				} catch (InputMismatchException e) { //TODO error
+				} catch (InputMismatchException e) {
 					System.out.println("You have to write a number");
 				}
 			} while (score != 1 && score != 11);
@@ -133,12 +136,12 @@ public class MainPlayer {
 
 		// Read actual Score
 		System.out.println("Your card is " + cardName + " / Your score is " + reader.readInt());
-		
-		//Read player finished
+
+		// Read player finished
 		if (reader.readBoolean()) {
 			System.out.println("Your score is over 21");
 		}
-		
+
 		writer.flush();
 	}
 
