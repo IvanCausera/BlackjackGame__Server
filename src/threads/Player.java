@@ -1,58 +1,79 @@
 package threads;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
-
-import tools.Tools;
 
 public class Player{
 	private static Scanner tec = new Scanner(System.in);
 	
+	private final int MINBET = 2;
+	private final int MAXBET = 500;
+	
+	private final float JACKPOT = 1.5f;
 	
 	private String usuario;
-	private BufferedWriter exit;
-	BufferedReader entry;
+	private DataOutputStream exit;
+	private DataInputStream entry;
+	
+	private boolean playerFinish = false;
+	private boolean coupierFinish = false;
 	
 	public void playerStart() {
 		try {
 			Socket s = new Socket(InetAddress.getByName("localhost"),2001);	
-			exit = new BufferedWriter (new OutputStreamWriter (s.getOutputStream ()));
-			entry = new BufferedReader (new InputStreamReader (s.getInputStream ()));
+			exit = new DataOutputStream (s.getOutputStream ());
+			entry = new DataInputStream (s.getInputStream ());
 			
 			System.out.println("Introduce Nombre Usuario: ");
 			usuario = tec.next();
 			
 			//Welcome message
-			System.out.println(entry.readLine());
-			String msgReturn;
+			System.out.println("Welcome player, How much do you want to bet?");
+			
+			int bet = 0;
+			boolean ok = true;
 			do {
-				//Your bet
-				sendMessage(tec.next());
-				msgReturn = entry.readLine();
-				//Error or info message
-				System.out.println(msgReturn);
-			} while (!msgReturn.contains("Ok"));
+				try {
+					//Obtain your bet
+					bet = tec.nextInt();
+					
+					if (bet < MINBET) {
+						System.out.println("Your bet is under the minimum bet(2 $), how much do you want to bet?");
+						ok = false;
+					}
+					if (bet > MAXBET) {
+						System.out.println("Your bet is over the maximum bet(500 $), how much do you want to bet?");
+						ok = false;
+					}
+				} catch (InputMismatchException e) {
+					System.out.println("Incorrect Format"
+							+ "\nhow much do you want to bet?");
+				}
+			} while (ok);
+			
+			//Send your bet
+			exit.writeInt(bet);
+			
+			//Send jackpot muliply
+			exit.writeFloat(JACKPOT);
+			System.out.println("Ok player, you bet  " + bet + " $, and the Jackpot Prize are " + (bet * JACKPOT) + " $");
 			
 			//First card message
-			readPlayerRound();
+			playerRound();
 
-			
 			//Coupier first card message
-			System.out.println(entry.readLine());
+			System.out.println(entry.readUTF());
 			
-			boolean playerFinish = false;
-			boolean coupierFinish = false;
 			boolean gameOver = false;
 			while (!gameOver) {
-				String msgOver = entry.readLine();
+				String msgOver = entry.readUTF();
 				if (msgOver.contains("OVER")) {
 					// Stand or hit message
 					System.out.println(msgOver);
@@ -65,7 +86,7 @@ public class Player{
 						sendMessage(msg);
 						if (msg.toUpperCase().equals("HIT")) {
 							//Your card message
-							playerFinish = readPlayerRound();
+							playerFinish = playerRound();
 						} else {
 							playerFinish = true;
 						}
@@ -74,7 +95,7 @@ public class Player{
 					
 					if (!coupierFinish) {
 						//Coupier message
-						String msg = entry.readLine();
+						String msg = entry.readUTF();
 						if (msg.contains("stands")) {
 							coupierFinish = true;
 						}
@@ -95,9 +116,9 @@ public class Player{
 		}
 	}
 	
-	private boolean readPlayerRound() throws IOException {
+	private boolean playerRound() throws IOException {
 		boolean finish = false;
-		String msgReturn = entry.readLine();
+		String msgReturn = entry.readUTF();
 		if (msgReturn.contains("want")) {
 			System.out.println(msgReturn);
 			int value = tec.nextInt();
@@ -105,7 +126,7 @@ public class Player{
 				System.out.println("Do you want a 1 or a 11?");
 				value = tec.nextInt();
 			}
-			msgReturn = entry.readLine();
+			msgReturn = entry.readUTF();
 		}
 		
 		if (msgReturn.contains("stand")) {
@@ -118,7 +139,7 @@ public class Player{
 	}
 	
 	private void sendMessage(String msg) throws IOException {
-		exit.write(msg + System.lineSeparator());
+		exit.writeUTF(msg + System.lineSeparator());
 		exit.flush();
 	}
 

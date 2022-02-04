@@ -1,10 +1,8 @@
 package threads;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -24,8 +22,8 @@ public class Croupier implements Runnable {
 	private boolean p1Finished;
 	private boolean cFinished;
 	
-	private BufferedWriter p1Writer;
-	private BufferedReader p1Read;
+	private DataOutputStream p1Writer;
+	private DataInputStream p1Read;
 	
 	public Croupier(Socket p1) {
 		this.p1 = p1;
@@ -44,23 +42,17 @@ public class Croupier implements Runnable {
 	@Override
 	public void run() {
 		try {
-			p1Writer = new BufferedWriter(new OutputStreamWriter(p1.getOutputStream()));
-			p1Read = new BufferedReader(new InputStreamReader(p1.getInputStream()));
+			p1Writer = new DataOutputStream(p1.getOutputStream());
+			p1Read = new DataInputStream(p1.getInputStream());
 			boolean gameOver = false;
 			double jackpotPrize = 0;
 			int p1Bet = 0;
 			
-			sendMessage("Welcome player, How much do you want to bet?");
-			try {
-				p1Bet = Integer.valueOf(p1Read.readLine());
-			} catch (NumberFormatException e) {
-				p1Bet = 2;
-			}
-			while (!checkBet(p1Bet)) {
-				p1Bet = Integer.valueOf(p1Read.readLine());
-			}
-			jackpotPrize = p1Bet * 1.5;
-			sendMessage("Ok player, you bet  " + p1Bet + " $, and the Jackpot Prize are " + jackpotPrize + " $");
+			//Read player bet
+			p1Bet = p1Read.readInt();
+
+			//Read jackpot multipy
+			jackpotPrize = p1Bet * p1Read.readFloat();
 			
 			playerRound();
 			croupierRound();
@@ -68,7 +60,7 @@ public class Croupier implements Runnable {
 			while (!gameOver) {
 				if (!p1Finished) {
 					sendMessage("Stand or hit?");
-					if (p1Read.readLine().toUpperCase().equals("HIT")) playerRound();
+					if (p1Read.readUTF().toUpperCase().equals("HIT")) playerRound();
 					else p1Finished = true;	
 				}
 				
@@ -107,7 +99,7 @@ public class Croupier implements Runnable {
 	}
 	
 	private void sendMessage(String msg) throws IOException {
-		p1Writer.write(msg + System.lineSeparator());
+		p1Writer.writeUTF(msg + System.lineSeparator());
 		p1Writer.flush();
 	}
 	
@@ -125,11 +117,16 @@ public class Croupier implements Runnable {
 	}
 	
 	private void playerRound() throws IOException {
+//		if (!p1Finished) {
+//			Card p1Card = cardDeck.removeCard();
+//			
+//			
+//		}
 		if (!p1Finished) {
 			Card p1Card = cardDeck.removeCard();
 			if (p1Card.getScore() == 0) {
 				sendMessage("Your card is " + p1Card.getName() + " Do you want a 1 or a 11?" );
-				if (p1Read.readLine().equals("11")) {
+				if (p1Read.readUTF().equals("11")) {
 					p1Score += 11;
 				} else 
 					p1Score += 1;
