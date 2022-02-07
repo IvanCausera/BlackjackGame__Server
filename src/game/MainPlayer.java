@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MainPlayer {
+public class MainPlayer implements Runnable {
 	private static Scanner tec = new Scanner(System.in);
 
 	private final int MINBET = 2;
@@ -46,7 +46,7 @@ public class MainPlayer {
 					tec.nextLine();
 					// Obtain your bet
 					bet = tec.nextInt();
-					
+
 					if (bet < MINBET || bet > MAXBET) {
 						System.out.println("Your bet has to be over 2 $ and under 500 $, how much do you want to bet?");
 						ok = false;
@@ -63,7 +63,7 @@ public class MainPlayer {
 
 			// Read jackpot
 			System.out.println(
-					"Ok " + user + ", you bet  " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
+					"Ok " + user + ",you bet " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
 
 			// First player round
 			playerRound();
@@ -156,6 +156,70 @@ public class MainPlayer {
 		// Read croupier finished
 		if (reader.readBoolean()) {
 			System.out.println("Croupier stands");
+		}
+	}
+
+	// This method is for the automatic execution of several player threads
+
+	@Override
+	public void run() {
+
+		System.out.println("Thread running");
+		try {
+			// Initialize connection
+			Socket s = new Socket(InetAddress.getByName("localhost"), 2001);
+			writer = new DataOutputStream(s.getOutputStream());
+			reader = new DataInputStream(s.getInputStream());
+
+			int bet = 0;
+
+			// Obtain bet
+			bet = tools.Tools.randomNumber(MINBET, MAXBET);
+
+			// Send your bet
+			writer.writeInt(bet);
+
+			// First player round
+			
+			//TODO se atasca en el método de playerRound, siendo concreato en el reader del Strin cardName
+			// no sé que puede ser exactamente, si alguien ve el error que me avisa y lo arreglo asap
+			playerRound();
+
+			// First croupier round
+			croupierRound();
+
+			boolean gameOver = false;
+			while (!gameOver) {
+
+				// Read player finished
+				if (!reader.readBoolean()) {
+					//Randomly stands or hits
+					System.out.println("Hit or stand");
+						writer.writeBoolean(tools.Tools.randomBoolean());
+				}
+
+				// Read Croupier finished
+				if (!reader.readBoolean()) {
+					croupierRound();
+				}
+
+				// Read game over
+				if (reader.readBoolean()) {
+					// Read game over message
+					System.out.println(reader.readUTF());
+					gameOver = true;
+				}
+				writer.flush();
+			}
+			s.close();
+		} catch (
+
+		SocketException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
