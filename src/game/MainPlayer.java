@@ -43,7 +43,6 @@ public class MainPlayer implements Runnable {
 			boolean ok = true;
 			do {
 				try {
-					tec.nextLine();
 					// Obtain your bet
 					bet = tec.nextInt();
 
@@ -53,6 +52,7 @@ public class MainPlayer implements Runnable {
 					} else
 						ok = true;
 				} catch (InputMismatchException e) {
+					tec.nextLine();
 					System.out.println("Incorrect Format, how much do you want to bet?");
 					ok = false;
 				}
@@ -63,7 +63,7 @@ public class MainPlayer implements Runnable {
 
 			// Read jackpot
 			System.out.println(
-					"Ok " + user + ",you bet " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
+					"Ok " + user + ", you bet " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
 
 			// First player round
 			playerRound();
@@ -122,10 +122,10 @@ public class MainPlayer implements Runnable {
 			do {
 				System.out.println("Your card is " + cardName + " Do you want 1 or 11?");
 				try {
-					tec.nextLine();
 					score = tec.nextInt();
 					tec.nextLine();
 				} catch (InputMismatchException e) {
+					tec.nextLine();
 					System.out.println("You have to write a number");
 				}
 			} while (score != 1 && score != 11);
@@ -179,10 +179,11 @@ public class MainPlayer implements Runnable {
 			// Send your bet
 			writer.writeInt(bet);
 
-			// First player round
+			// Read jackpot
+			System.out.println(
+					"Ok thread, you bet " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
 			
-			//TODO se atasca en el método de playerRound, siendo concreato en el reader del Strin cardName
-			// no sé que puede ser exactamente, si alguien ve el error que me avisa y lo arreglo asap
+			// First player round
 			playerRound();
 
 			// First croupier round
