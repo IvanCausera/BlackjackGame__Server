@@ -3,23 +3,24 @@ package game;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.time.Duration;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.concurrent.TimeoutException;
 
-public class MainPlayer implements Runnable {
+public class MainPlayer {
 	private static Scanner tec = new Scanner(System.in);
 
 	private final int MINBET = 2;
 	private final int MAXBET = 500;
-	private final int TIMEOUT = 20;
+	private final int TIMEOUT = 5;
+	private final int PORT = 2001;
 
 	private String user;
+	private Socket s = null;
 	private DataOutputStream writer;
 	private DataInputStream reader;
 
@@ -31,29 +32,8 @@ public class MainPlayer implements Runnable {
 
 	public void playerStart() {
 		try {
-			String local = null;
-			Socket s = null;
-			
-			// Asking if the game server runs locally or not
-			System.out.println("Is the game server local or not?(Y/N):");
-			
-			do {
-				local = tec.nextLine();
-			} while (!local.toUpperCase().equals("Y") || !local.toUpperCase().equals("N"));
-			
+			ConnectServer();
 
-			// Connecting to server
-			
-			if (local.toUpperCase().equals("Y")) {
-				s = new Socket(InetAddress.getByName("localhost"), 2001);
-			} else {
-				System.out.println("Enter the server address please:");
-				local = tec.nextLine();
-				s = new Socket(InetAddress.getByName(local), 2001);
-			}
-			
-
-			s.setSoTimeout(TIMEOUT * 1000);
 			writer = new DataOutputStream(s.getOutputStream());
 			reader = new DataInputStream(s.getInputStream());
 
@@ -125,20 +105,13 @@ public class MainPlayer implements Runnable {
 				writer.flush();
 			}
 			s.close();
-		}catch(
-
-	SocketException e)
-	{
-		System.out.println("No response from server.");
-	}catch(
-	UnknownHostException e)
-	{
-		e.printStackTrace();
-	}catch(
-	IOException e)
-	{
-		e.printStackTrace();
-	}
+		} catch (SocketException e) {
+			System.out.println("No response from server.");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void playerRound() throws IOException {
@@ -190,70 +163,40 @@ public class MainPlayer implements Runnable {
 		}
 	}
 
-	// This method is for the automatic execution of several player threads
+	private void ConnectServer() throws UnknownHostException, IOException {
+		String local = null;
+		// Asking if the game server runs locally or not
+		System.out.println("Is the game server local or not?(Y/N):");
+		local = tec.nextLine();
 
-	@Override
-	public void run() {
+		/*
+		 *TODO archivo server address
+		 *Podemos usar un archivo txt para guardar la ultima conexion con el servidor y 
+		 *lo primero intentamos conectar a la direccion guardada si da error le pedimos al usuario que introduza otra direccion del servidor. 	
+		*/
 
-		System.out.println("Thread running");
-		try {
-			// Initialize connection
-			Socket s = new Socket(InetAddress.getByName("localhost"), 2001);
-			writer = new DataOutputStream(s.getOutputStream());
-			reader = new DataInputStream(s.getInputStream());
-
-			int bet = 0;
-
-			// Obtain bet
-			bet = tools.Tools.randomNumber(MINBET, MAXBET);
-
-			// Send your bet
-			writer.writeInt(bet);
-
-			// Read jackpot
-			System.out.println(
-					"Ok thread, you bet " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
-
-			// First player round
-			// TODO
-			playerRound();
-
-			// First croupier round
-			croupierRound();
-
-			boolean gameOver = false;
-			while (!gameOver) {
-
-				// Read player finished
-				if (!reader.readBoolean()) {
-					// Randomly stands or hits
-					System.out.println("Hit or stand");
-					writer.writeBoolean(tools.Tools.randomBoolean());
-				}
-
-				// Read Croupier finished
-				if (!reader.readBoolean()) {
-					croupierRound();
-				}
-
-				// Read game over
-				if (reader.readBoolean()) {
-					// Read game over message
-					System.out.println(reader.readUTF());
-					gameOver = true;
-				}
-				writer.flush();
-			}
-			s.close();
-		} catch (
-
-		SocketException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		while (!local.toUpperCase().equals("Y") && !local.toUpperCase().equals("N")) {
+			System.out.println("Write Y or N. Is the game server local or not?(Y/N):");
+			local = tec.nextLine();
 		}
-	}
 
+		// Connecting to server
+		if (local.toUpperCase().equals("Y")) {
+			s = new Socket(InetAddress.getByName("localhost"), PORT);
+		} else {
+			boolean ok = true;
+			do {
+				System.out.println("Enter the server address please:");
+				local = tec.nextLine();
+				try {
+					s = new Socket(InetAddress.getByName(local), PORT);
+					ok = true;
+				} catch (ConnectException | UnknownHostException e) {
+					System.out.println("You write: " + local + ". No response from the server.");
+					ok = false;
+				}
+			} while (!ok);
+		}
+		s.setSoTimeout(TIMEOUT * 1000);
+	}
 }
