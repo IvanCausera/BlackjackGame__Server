@@ -7,14 +7,17 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.time.Duration;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.TimeoutException;
 
 public class MainPlayer implements Runnable {
 	private static Scanner tec = new Scanner(System.in);
 
 	private final int MINBET = 2;
 	private final int MAXBET = 500;
+	private final int TIMEOUT = 20;
 
 	private String user;
 	private DataOutputStream writer;
@@ -30,6 +33,7 @@ public class MainPlayer implements Runnable {
 		try {
 			// Initialize connection
 			Socket s = new Socket(InetAddress.getByName("localhost"), 2001);
+			s.setSoTimeout(TIMEOUT * 1000);
 			writer = new DataOutputStream(s.getOutputStream());
 			reader = new DataInputStream(s.getInputStream());
 
@@ -102,12 +106,12 @@ public class MainPlayer implements Runnable {
 			}
 			s.close();
 		} catch (SocketException e) {
-			e.printStackTrace();
+			System.out.println("No response from server.");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	private void playerRound() throws IOException {
