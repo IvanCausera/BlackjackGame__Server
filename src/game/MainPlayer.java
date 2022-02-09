@@ -39,7 +39,7 @@ public class MainPlayer implements Runnable {
 			
 			do {
 				local = tec.nextLine();
-			} while (local.toUpperCase().equals("Y") || local.toUpperCase().equals("N"));
+			} while (!local.toUpperCase().equals("Y") || !local.toUpperCase().equals("N"));
 			
 
 			// Connecting to server
