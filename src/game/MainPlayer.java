@@ -31,8 +31,29 @@ public class MainPlayer implements Runnable {
 
 	public void playerStart() {
 		try {
-			// Initialize connection
-			Socket s = new Socket(InetAddress.getByName("localhost"), 2001);
+			String local = null;
+			Socket s = null;
+			
+			// Asking if the game server runs locally or not
+			System.out.println("Is the game server local or not?(Y/N):");
+			try {
+				local = tec.nextLine();
+			} catch (InputMismatchException e) {
+				tec.nextLine();
+				System.out.println("Incorrect Format, is the game server local?");
+			}
+
+			// Connecting to server
+			
+			if (local.toUpperCase().equals("Y")) {
+				s = new Socket(InetAddress.getByName("localhost"), 2001);
+			} else {
+				System.out.println("Enter the server address please:");
+				local = tec.nextLine();
+				s = new Socket(InetAddress.getByName(local), 2001);
+			}
+			
+
 			s.setSoTimeout(TIMEOUT * 1000);
 			writer = new DataOutputStream(s.getOutputStream());
 			reader = new DataInputStream(s.getInputStream());
@@ -105,13 +126,20 @@ public class MainPlayer implements Runnable {
 				writer.flush();
 			}
 			s.close();
-		} catch (SocketException e) {
-			System.out.println("No response from server.");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+		}catch(
+
+	SocketException e)
+	{
+		System.out.println("No response from server.");
+	}catch(
+	UnknownHostException e)
+	{
+		e.printStackTrace();
+	}catch(
+	IOException e)
+	{
+		e.printStackTrace();
+	}
 	}
 
 	private void playerRound() throws IOException {
@@ -186,8 +214,9 @@ public class MainPlayer implements Runnable {
 			// Read jackpot
 			System.out.println(
 					"Ok thread, you bet " + bet + " $, and the Jackpot Prize is " + reader.readDouble() + " $");
-			
+
 			// First player round
+			// TODO
 			playerRound();
 
 			// First croupier round
@@ -198,9 +227,9 @@ public class MainPlayer implements Runnable {
 
 				// Read player finished
 				if (!reader.readBoolean()) {
-					//Randomly stands or hits
+					// Randomly stands or hits
 					System.out.println("Hit or stand");
-						writer.writeBoolean(tools.Tools.randomBoolean());
+					writer.writeBoolean(tools.Tools.randomBoolean());
 				}
 
 				// Read Croupier finished
