@@ -36,12 +36,11 @@ public class MainPlayer implements Runnable {
 			
 			// Asking if the game server runs locally or not
 			System.out.println("Is the game server local or not?(Y/N):");
-			try {
+			
+			do {
 				local = tec.nextLine();
-			} catch (InputMismatchException e) {
-				tec.nextLine();
-				System.out.println("Incorrect Format, is the game server local?");
-			}
+			} while (local.toUpperCase().equals("Y") || local.toUpperCase().equals("N"));
+			
 
 			// Connecting to server
 			
