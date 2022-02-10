@@ -17,7 +17,6 @@ public class MainPlayer {
 	private final int MINBET = 2;
 	private final int MAXBET = 500;
 	private final int TIMEOUT = 5;
-	private final int PORT = 2001;
 
 	private String user;
 	private Socket s = null;
@@ -27,12 +26,13 @@ public class MainPlayer {
 	public static void main(String[] args) {
 		MainPlayer player = new MainPlayer();
 
-		player.playerStart();
+		
+		player.playerStart(args[0], Integer.parseInt(args[1]));
 	}
 
-	public void playerStart() {
+	public void playerStart(String address, int port) {
 		try {
-			ConnectServer();
+			ConnectServer(address, port);
 
 			writer = new DataOutputStream(s.getOutputStream());
 			reader = new DataInputStream(s.getInputStream());
@@ -71,8 +71,10 @@ public class MainPlayer {
 
 			// First player round
 			playerRound();
+			playerRound();
 
 			// First croupier round
+			croupierRound();
 			croupierRound();
 
 			boolean gameOver = false;
@@ -163,40 +165,31 @@ public class MainPlayer {
 		}
 	}
 
-	private void ConnectServer() throws UnknownHostException, IOException {
-		String local = null;
-		// Asking if the game server runs locally or not
-		System.out.println("Is the game server local or not?(Y/N):");
-		local = tec.nextLine();
+	// This method checks if the address/port is correct, if not, the user reenters both
+	private void ConnectServer(String address, int port) throws UnknownHostException, IOException {
 
-		/*
-		 *TODO archivo server address
-		 *Podemos usar un archivo txt para guardar la ultima conexion con el servidor y 
-		 *lo primero intentamos conectar a la direccion guardada si da error le pedimos al usuario que introduza otra direccion del servidor. 	
-		*/
+		boolean ok = true;
+		do {
+			try {
+				// Trying out the connection
+				s = new Socket(InetAddress.getByName(address), port);
+				ok = true;
+				
+			} catch (ConnectException | UnknownHostException e) {
+				// Request for new address if it was invalid
+				System.out.println("You wrote: " + address + ":" + port + ". No response from the server.");
+				
+				System.out.println("Reenter the server address please:");
+				address = tec.nextLine();
+				
+				System.out.println("Reenter the port please:");
 
-		while (!local.toUpperCase().equals("Y") && !local.toUpperCase().equals("N")) {
-			System.out.println("Write Y or N. Is the game server local or not?(Y/N):");
-			local = tec.nextLine();
-		}
+				port = tec.nextInt();
+				tec.nextLine();
+				ok = false;
+			}
+		} while (!ok);
 
-		// Connecting to server
-		if (local.toUpperCase().equals("Y")) {
-			s = new Socket(InetAddress.getByName("localhost"), PORT);
-		} else {
-			boolean ok = true;
-			do {
-				System.out.println("Enter the server address please:");
-				local = tec.nextLine();
-				try {
-					s = new Socket(InetAddress.getByName(local), PORT);
-					ok = true;
-				} catch (ConnectException | UnknownHostException e) {
-					System.out.println("You write: " + local + ". No response from the server.");
-					ok = false;
-				}
-			} while (!ok);
-		}
 		s.setSoTimeout(TIMEOUT * 1000);
 	}
 }

@@ -53,8 +53,10 @@ public class Croupier implements Runnable {
 			
 			//First player round
 			playerRound();
+			playerRound();
 			
 			//First croupier round
+			croupierRound();
 			croupierRound();
 
 			while (!gameOver) {
