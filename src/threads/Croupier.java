@@ -19,18 +19,27 @@ public class Croupier implements Runnable {
 	private int cScore;
 	private boolean p1Finished;
 	private boolean cFinished;
+	boolean p1Bust;
+	boolean cBust;
 	
-	private DataOutputStream p1Writer;
-	private DataInputStream p1Reader;
+	private DataOutputStream writer;
+	private DataInputStream reader;
 	
 	public Croupier(Socket p1) {
 		this.p1 = p1;
 		
+		initialize();
+	}
+	
+	private void initialize() {
 		p1Score = 0;
 		cScore = 0;
 		
 		p1Finished = false;
 		cFinished = false;	
+		
+		p1Bust = false;
+		cBust = false;
 		
 		cardDeck = new CardDeck();
 	}
@@ -38,67 +47,75 @@ public class Croupier implements Runnable {
 	@Override
 	public void run() {
 		try {
-			p1Writer = new DataOutputStream(p1.getOutputStream());
-			p1Reader = new DataInputStream(p1.getInputStream());
+			writer = new DataOutputStream(p1.getOutputStream());
+			reader = new DataInputStream(p1.getInputStream());
 			
-			boolean gameOver = false;
-			double jackpotPrize = 0;
-			int p1Bet = 0;
-			//Read player bet
-			p1Bet = p1Reader.readInt();
+			boolean playAgain = false;
+			do {
+				boolean gameOver = false;
+				double jackpotPrize = 0;
+				int p1Bet = 0;
+				//Read player bet
+				p1Bet = reader.readInt();
 
-			//Send jackpot 
-			jackpotPrize = p1Bet * 1.5;
-			p1Writer.writeDouble(jackpotPrize);
-			
-			//First player round
-			playerRound();
-			playerRound();
-			
-			//First croupier round
-			croupierRound();
-			croupierRound();
+				//Send jackpot 
+				jackpotPrize = p1Bet * 1.5;
+				writer.writeDouble(jackpotPrize);
+				
+				//First player round
+				playerRound();
+				playerRound();
+				
+				//First croupier round
+				croupierRound();
+				croupierRound();
 
-			while (!gameOver) {
-				
-				//Send player finished
-				p1Writer.writeBoolean(p1Finished);
-				if (!p1Finished) {
-					//Read player choice
-					if(p1Reader.readBoolean()) 
-						playerRound();
-					else p1Finished = true;
-				}
-				
-				//Send croupier finished
-				p1Writer.writeBoolean(cFinished);
-				if (!cFinished) 
-					croupierRound();
-				
-				//Send game over
-				boolean end = p1Finished && cFinished;
-				p1Writer.writeBoolean(end);
-				if (end) {
-					boolean p1BlackJack = p1Score == 21;
-					boolean cBlackJack = cScore == 21;
+				while (!gameOver) {
 					
-					if (p1BlackJack && cBlackJack) p1Writer.writeUTF("It's a draw, GAME OVER");
-					else {
-						boolean p1Bust = p1Score > 21;
-						boolean cBust = cScore > 21;
-						
-						if (p1Bust && cBust) p1Writer.writeUTF("Everyone has lost, GAME OVER");
-						else if (!p1Bust && cBust) p1Writer.writeUTF("Congratulations player, you have won " + jackpotPrize + " $, GAME OVER");
-						else if (p1Bust && !cBust) p1Writer.writeUTF("Croupier has won " + jackpotPrize + " $, GAME OVER");
-						else {
-							if (p1Score > cScore) p1Writer.writeUTF("Congratulations player, you have won " + jackpotPrize + " $, GAME OVER");
-							else p1Writer.writeUTF("Croupier has won " + jackpotPrize + " $, GAME OVER");
-						}
+					//Send player finished
+					writer.writeBoolean(p1Finished);
+					if (!p1Finished) {
+						//Read player choice
+						if(reader.readBoolean()) 
+							playerRound();
+						else p1Finished = true;
 					}
-					gameOver = true;
+					
+					//Send croupier finished
+					writer.writeBoolean(cFinished);
+					if (!cFinished) 
+						croupierRound();
+					
+					//Send game over
+					boolean end = p1Finished && cFinished;
+					writer.writeBoolean(end);
+					if (end) {
+						//Write game over message
+						if ((p1Score == 21) && (cScore == 21)) writer.writeUTF("It's a draw, GAME OVER");
+						else {
+							if (p1Bust && cBust) writer.writeUTF("Everyone has lost, GAME OVER");
+							else if (!p1Bust && cBust) writer.writeUTF("Congratulations player, you have won " + jackpotPrize + " $, GAME OVER");
+							else if (p1Bust && !cBust) writer.writeUTF("Croupier has won " + jackpotPrize + " $, GAME OVER");
+							else if (p1Score == cScore) writer.writeUTF("It's a draw, GAME OVER");
+							else {
+								if (p1Score > cScore) writer.writeUTF("Congratulations player, you have won " + jackpotPrize + " $, GAME OVER");
+								else writer.writeUTF("Croupier has won " + jackpotPrize + " $, GAME OVER");
+							}
+						}
+						
+						gameOver = true;
+						
+						//Read play Again
+						if (reader.readBoolean()) {
+							playAgain = true;
+							initialize();
+						} else 
+							playAgain = false;
+					}
+					
+					writer.flush();
 				}
-				p1Writer.flush();
-			}
+			} while (playAgain);
 			p1.close();
 		} catch (SocketException e) {
 			e.printStackTrace(); 
@@ -112,31 +129,33 @@ public class Croupier implements Runnable {
 	private void playerRound() throws IOException {
 		Card p1Card = cardDeck.removeCard();
 		//Send Card Name
-		p1Writer.writeUTF(p1Card.getName());
+		writer.writeUTF(p1Card.getName());
 		
 		//Ace check
 		if (p1Card.getScore() == 0) {
 			//Send is Ace true
-			p1Writer.writeBoolean(true);
+			writer.writeBoolean(true);
 			
 			//Read number
-			p1Score += p1Reader.readInt();
+			p1Score += reader.readInt();
 		} else {
 			//Send is Ace false
-			p1Writer.writeBoolean(false);
+			writer.writeBoolean(false);
 			p1Score += p1Card.getScore();
 		}
 		
 		//Send player actual score
-		p1Writer.writeInt(p1Score);
+		writer.writeInt(p1Score);
 		
 		if (p1Score > 21) {
 			p1Finished = true;
+			cFinished = true;
+			p1Bust = true;
 		}
 		//Send player finished
-		p1Writer.writeBoolean(p1Finished);
+		writer.writeBoolean(p1Finished);
 		
-		p1Writer.flush();
+		writer.flush();
 	}
 	
 	
@@ -148,16 +167,24 @@ public class Croupier implements Runnable {
 		} else cScore += cCard.getScore();
 
 		//Send card name
-		p1Writer.writeUTF(cCard.getName());
+		writer.writeUTF(cCard.getName());
 		//Send croupier actual score
-		p1Writer.writeInt(cScore);
+		writer.writeInt(cScore);
 
-		if (cScore > 16 || cScore >= 21) {
+		if (cScore > 21) {
+			p1Finished = true;
 			cFinished = true;
-		} 
+			cBust = true;
+		} else if (cScore > 16) {
+			cFinished = true;
+		}
 		//Send croupier finished
-		p1Writer.writeBoolean(cFinished);
-		p1Writer.flush();
+		writer.writeBoolean(cFinished);
+		//Send croupier is bust
+		if (cFinished) {
+			writer.writeBoolean(cBust);	
+		}
+		writer.flush();
 	}
 
 }

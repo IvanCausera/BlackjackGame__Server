@@ -7,6 +7,7 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -18,37 +19,51 @@ public class MainPlayer {
 	private final int MAXBET = 500;
 	private final int TIMEOUT = 5;
 
-	private String user;
 	private Socket s = null;
 	private DataOutputStream writer;
 	private DataInputStream reader;
 
 	public static void main(String[] args) {
 		MainPlayer player = new MainPlayer();
+		String user;
 
-		
-		player.playerStart(args[0], Integer.parseInt(args[1]));
-	}
-
-	public void playerStart(String address, int port) {
 		try {
-			ConnectServer(address, port);
-
-			writer = new DataOutputStream(s.getOutputStream());
-			reader = new DataInputStream(s.getInputStream());
-
-			System.out.println("Enter your username: ");
-			user = tec.next();
-
-			// Welcome message
-			System.out.println("Welcome " + user + ", how much do you want to bet?");
-
+			if (args.length >= 2)
+				player.ConnectServer(args[0], Integer.parseInt(args[1]));
+			else 
+				player.ConnectServer(null, 0);
+			
+		} catch (NumberFormatException e) {
+			System.out.println("The port format is incorrect.");
+			player.ConnectServer(null, 0);
+		}
+		
+		System.out.println("Enter your username: ");
+		user = tec.nextLine();
+		
+		String welcomeMessage = "Welcome " + user + ", how much do you want to bet?";
+		boolean playAgain = false;
+		
+		do {
+			System.out.println(welcomeMessage);
+			playAgain = player.playerStart(user);
+			welcomeMessage = "----------------------------------------------\n"
+					+ "Hello again ivan, how much do you want to bet?";
+		} while (playAgain);
+		
+		
+		player.closePlayer();
+	}
+	
+	private boolean playerStart(String user) {
+		boolean playAgain = false;
+		try { 
 			int bet = 0;
 			boolean ok = true;
 			do {
 				try {
 					// Obtain your bet
-					bet = tec.nextInt();
+					bet = tec.nextInt(); tec.nextLine();
 
 					if (bet < MINBET || bet > MAXBET) {
 						System.out.println("Your bet has to be over 2 $ and under 500 $, how much do you want to bet?");
@@ -84,8 +99,8 @@ public class MainPlayer {
 				if (!reader.readBoolean()) {
 					System.out.println("Stand or hit?");
 
-					// Send player choice
-					if (tec.next().toUpperCase().equals("HIT")) {
+					// Send player choice;
+					if (tec.nextLine().toUpperCase().equals("HIT")) {
 						writer.writeBoolean(true);
 						playerRound();
 
@@ -103,17 +118,30 @@ public class MainPlayer {
 					// Read game over message
 					System.out.println(reader.readUTF());
 					gameOver = true;
+					
+					
+					System.out.println("Do you want to play again?(Y/N)");
+					String answer = tec.nextLine();
+					if (answer.toUpperCase().equals("Y"))
+						playAgain = true;
+					else
+						playAgain = false;
+					
+					// Write play Again
+					writer.writeBoolean(playAgain);
 				}
 				writer.flush();
 			}
-			s.close();
-		} catch (SocketException e) {
+		} catch (SocketTimeoutException e) {
 			System.out.println("No response from server.");
+		} catch (SocketException e) {
+			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return playAgain;
 	}
 
 	private void playerRound() throws IOException {
@@ -128,8 +156,7 @@ public class MainPlayer {
 			do {
 				System.out.println("Your card is " + cardName + " Do you want 1 or 11?");
 				try {
-					score = tec.nextInt();
-					tec.nextLine();
+					score = tec.nextInt(); tec.nextLine();
 				} catch (InputMismatchException e) {
 					tec.nextLine();
 					System.out.println("You have to write a number");
@@ -161,35 +188,67 @@ public class MainPlayer {
 
 		// Read croupier finished
 		if (reader.readBoolean()) {
-			System.out.println("Croupier stands");
+			//Read croupier is bust
+			if (reader.readBoolean())
+				System.out.println("Croupier score is over 21");
+			else
+				System.out.println("Croupier stands");
 		}
 	}
 
 	// This method checks if the address/port is correct, if not, the user reenters both
-	private void ConnectServer(String address, int port) throws UnknownHostException, IOException {
+	private void ConnectServer(String address, int port) {
 
-		boolean ok = true;
-		do {
-			try {
-				// Trying out the connection
-				s = new Socket(InetAddress.getByName(address), port);
-				ok = true;
-				
-			} catch (ConnectException | UnknownHostException e) {
-				// Request for new address if it was invalid
-				System.out.println("You wrote: " + address + ":" + port + ". No response from the server.");
-				
-				System.out.println("Reenter the server address please:");
-				address = tec.nextLine();
-				
-				System.out.println("Reenter the port please:");
+		try {
+			boolean ok = true;
+			do {
+				try {
+					// Trying out the connection
+					if (address != null) {
+						s = new Socket(InetAddress.getByName(address), port);
+						ok = true;
+					} else {
+						//Request for an address if there're no arguments
+						System.out.println("Write the server address please:");
+						address = tec.nextLine();
+						
+						System.out.println("Write the port please:");
+						port = tec.nextInt(); tec.nextLine();
+						
+						s = new Socket(InetAddress.getByName(address), port);
+						ok = true;
+					}
+					
+				} catch (ConnectException | UnknownHostException e) {
+					// Request for new address if it was invalid
+					System.out.println("You wrote: " + address + ":" + port + ". No response from the server.");
+					
+					System.out.println("Reenter the server address please:");
+					address = tec.nextLine();
+					
+					System.out.println("Reenter the port please:");
 
-				port = tec.nextInt();
-				tec.nextLine();
-				ok = false;
-			}
-		} while (!ok);
+					port = tec.nextInt(); tec.nextLine();
+					ok = false;
+				}
+			} while (!ok);
 
-		s.setSoTimeout(TIMEOUT * 1000);
+			s.setSoTimeout(TIMEOUT * 1000);
+			
+			writer = new DataOutputStream(s.getOutputStream());
+			reader = new DataInputStream(s.getInputStream());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void closePlayer() {
+		try {
+			s.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
