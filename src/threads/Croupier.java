@@ -128,8 +128,8 @@ public class Croupier implements Runnable {
 	
 	private void playerRound() throws IOException {
 		Card p1Card = cardDeck.removeCard();
-		//Send Card Name
-		writer.writeUTF(p1Card.getName());
+		//Send card depiction
+		writer.writeUTF(p1Card.getDepiction());
 		
 		//Ace check
 		if (p1Card.getScore() == 0) {
@@ -166,8 +166,8 @@ public class Croupier implements Runnable {
 			else cScore++;
 		} else cScore += cCard.getScore();
 
-		//Send card name
-		writer.writeUTF(cCard.getName());
+		//Send card depiction
+		writer.writeUTF(cCard.getDepiction());
 		//Send croupier actual score
 		writer.writeInt(cScore);
 

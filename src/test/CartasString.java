@@ -27,7 +27,7 @@ public class CartasString {
 				+ "|  \u2663  |\n"
 				+ "|     |\n"
 				+ "|  \u2663  |\n"
-				+ "|____Z|\n");
+				+ "|____Z|");
 		
 		System.out.println("\n--------------\n");
 		
@@ -187,7 +187,7 @@ public class CartasString {
 				+ "|  \u2660  |\n"
 				+ "|     |\n"
 				+ "|  \u2660  |\n"
-				+ "|____Z|\n");
+				+ "|____Z|");
 		
 		System.out.println("\n--------------\n");
 		
@@ -509,7 +509,7 @@ public class CartasString {
 				+ "|  \u2665  |\n"
 				+ "|     |\n"
 				+ "|  \u2665  |\n"
-				+ "|____Z|\n");
+				+ "|____Z|");
 		
 		System.out.println("\n--------------\n");
 		

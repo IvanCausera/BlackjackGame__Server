@@ -48,7 +48,7 @@ public class MainPlayer {
 			System.out.println(welcomeMessage);
 			playAgain = player.playerStart(user);
 			welcomeMessage = "----------------------------------------------\n"
-					+ "Hello again ivan, how much do you want to bet?";
+					+ "Hello again " + user + ", how much do you want to bet?";
 		} while (playAgain);
 		
 		
@@ -145,8 +145,8 @@ public class MainPlayer {
 	}
 
 	private void playerRound() throws IOException {
-		// Read Card Name
-		String cardName = reader.readUTF();
+		// Read card depiction
+		String cardDepiction = reader.readUTF();
 
 		// Ace Check
 		if (reader.readBoolean()) {
@@ -154,7 +154,7 @@ public class MainPlayer {
 			// Ask for number
 			int score = 0;
 			do {
-				System.out.println("Your card is " + cardName + " Do you want 1 or 11?");
+				System.out.println("Your card is " + cardDepiction + "\n Do you want 1 or 11?");
 				try {
 					score = tec.nextInt(); tec.nextLine();
 				} catch (InputMismatchException e) {
@@ -168,7 +168,7 @@ public class MainPlayer {
 		}
 
 		// Read actual Score
-		System.out.println("Your card is " + cardName + " / Your score is " + reader.readInt());
+		System.out.println("Your card is " + cardDepiction + " Your score is " + reader.readInt());
 
 		// Read player finished
 		if (reader.readBoolean()) {
@@ -179,12 +179,14 @@ public class MainPlayer {
 	}
 
 	private void croupierRound() throws IOException {
-		// Read card name
-		String cardName = reader.readUTF();
+		// Read card depiction
+		String cardDepiction = reader.readUTF();
 
 		// Read croupier score
 		int cScore = reader.readInt();
-		System.out.println("Croupier card is " + cardName + " / Croupier score is " + cScore);
+		
+		
+		System.out.println("Croupier card is " + cardDepiction + " Croupier score is " + cScore);
 
 		// Read croupier finished
 		if (reader.readBoolean()) {
