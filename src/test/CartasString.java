@@ -348,7 +348,7 @@ public class CartasString {
 				+ "|  \u2666  |\n"
 				+ "|     |\n"
 				+ "|  \u2666  |\n"
-				+ "|____Z|\n");
+				+ "|____Z|");
 		
 		System.out.println("\n--------------\n");
 		
