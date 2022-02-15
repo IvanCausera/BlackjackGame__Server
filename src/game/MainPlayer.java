@@ -38,6 +38,12 @@ public class MainPlayer {
 			player.ConnectServer(null, 0);
 		}
 		
+		System.out.println(
+				"  / _ \\______________/`/\\+-/\\'\\'\\" + "\n" +
+				"\\_\\(_)/_/ Black jack -+-    -+-+-" + "\n" +
+				" _//o\\\\_             \\'\\/+-\\/`/`/" + "\n" +
+				"  /   \\               \\/-+--\\/`/ ");
+			
 		System.out.println("Enter your username: ");
 		user = tec.nextLine();
 		
