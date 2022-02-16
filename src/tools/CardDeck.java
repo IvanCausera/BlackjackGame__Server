@@ -16,6 +16,7 @@ public class CardDeck {
 	private String diamond;
 	
 	public CardDeck() {
+		loadSymbols();
 		RefreshDeck();
 	}
 	
