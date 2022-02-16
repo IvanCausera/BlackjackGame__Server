@@ -12,7 +12,12 @@ import java.net.UnknownHostException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// This class will be executed by the player, it simulates the game and also manages the connection
+
+/**
+ * This class will be executed by the player, it simulates the game and also manages the connection
+ * 
+ * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ */
 public class MainPlayer {
 	private static Scanner tec = new Scanner(System.in);
 

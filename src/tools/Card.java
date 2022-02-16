@@ -1,5 +1,10 @@
 package tools;
 
+/**
+ * This class stores the information of a card.
+ * 
+ * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ */
 public class Card {
 	private int id;
 	private int score;

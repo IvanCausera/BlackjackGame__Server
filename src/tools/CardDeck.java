@@ -3,6 +3,11 @@ package tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * This class sotres the information of a Card
+ * 
+ * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ */
 public class CardDeck {
 	private ArrayList<Card> cardDeck;
 	private String club;
@@ -205,12 +210,13 @@ public class CardDeck {
 										+ "|\u2666 \u2666 \u2666|\n"
 										+ "|\u2666 \u2666 \u2666|\n"
 										+ "|____0I|"),
+						
 						new Card( 24,10,
 								"JACK OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|J    |\n"
 										+ "|     |\n"
-										+ "|  \u2666  |\n"
+										+ "|  "+diamond+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 25,10,
@@ -218,7 +224,7 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|Q    |\n"
 										+ "|     |\n"
-										+ "|  \u2666  |\n"
+										+ "|  "+diamond+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 26,10,
@@ -226,96 +232,98 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|K    |\n"
 										+ "|     |\n"
-										+ "|  \u2666  |\n"
+										+ "|  "+diamond+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
+						
+						//HEARTS
 						
 						new Card( 27,0,
 								"ACE OF HEARTS\n"
 										+ " _____\n"
 										+ "|A    |\n"
 										+ "|     |\n"
-										+ "|  \u2665  |\n"
+										+ "|  "+heart+"  |\n"
 										+ "|     |\n"
 										+ "|____V| "),
 						new Card( 28,2,
 								"TWO OF HEARTS \n"
 										+  " _____ \n"
 										+ "|2    |\n"
-										+ "|  \u2665  |\n"
+										+ "|  "+heart+"  |\n"
 										+ "|     |\n"
-										+ "|  \u2665  |\n"
+										+ "|  "+heart+"  |\n"
 										+ "|____Z|"),
 						new Card( 29,3,
 								"THREE OF HEARTS\n"
 										+ " _____\n"
 										+ "|3    |\n"
-										+ "|  \u2665  |\n"
-										+ "|  \u2665  |\n"
-										+ "|  \u2665  |\n"
+										+ "|  "+heart+"  |\n"
+										+ "|  "+heart+"  |\n"
+										+ "|  "+heart+"  |\n"
 										+ "|____E| "),
 						new Card( 30,4,
 								"FOUR OF HEARTS\n"
 										+ " _____ |\n"
 										+ "|4    |\n"
-										+ "| \u2665 \u2665 |\n"
+										+ "| "+heart+" "+heart+" |\n"
 										+ "|     |\n"
-										+ "| \u2665 \u2665 |\n"
+										+ "| "+heart+" "+heart+" |\n"
 										+ "|____h|"),
 						new Card( 31,5,
 								"FIVE OF HEARTS\n"
 										+ " _____\n"
 										+ "|5    |\n"
-										+ "| \u2665 \u2665 |\n"
-										+ "|  \u2665  |\n"
-										+ "| \u2665 \u2665 |\n"
+										+ "| "+heart+" "+heart+" |\n"
+										+ "|  "+heart+"  |\n"
+										+ "| "+heart+" "+heart+" |\n"
 										+ "|____S|"),
 						new Card( 32,6,
 								"SIX OF HEARTS\n"
 										+ " _____\n"
 										+ "|6    |\n"
-										+ "| \u2665 \u2665 |\n"
-										+ "| \u2665 \u2665 |\n"
-										+ "| \u2665 \u2665 |\n"
+										+ "| "+heart+" "+heart+" |\n"
+										+ "| "+heart+" "+heart+" |\n"
+										+ "| "+heart+" "+heart+" |\n"
 										+ "|____9|"),
 						new Card( 33,7,
 								"SEVEN OF HEARTS\n"
 										+ " _____\n"
 										+ "|7    |\n"
-										+ "| \u2665 \u2665 |\n"
-										+ "|\u2665 \u2665 \u2665|\n"
-										+ "| \u2665 \u2665 |\n"
+										+ "| "+heart+" "+heart+" |\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
+										+ "| "+heart+" "+heart+" |\n"
 										+ "|____L|"),
 						new Card( 34,8,
 								"EIGHT OF HEARTS\n"
 										+ " _____\n"
 										+ "|8    |\n"
-										+ "|\u2665 \u2665 \u2665|\n"
-										+ "| \u2665 \u2665 |\n"
-										+ "|\u2665 \u2665 \u2665|\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
+										+ "| "+heart+" "+heart+" |\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
 										+ "|____8|"),
 						new Card( 35,9,
 								"NINE OF HEARTS\n"
 										+ " _____\n"
 										+ "|9    |\n"
-										+ "|\u2665 \u2665 \u2665|\n"
-										+ "|\u2665 \u2665 \u2665|\n"
-										+ "|\u2665 \u2665 \u2665|\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
 										+ "|____6|"),
 						new Card( 36,10,
 								"TEN OF HEARTS\n"
 										+ " _____\n"
-										+ "|10 \u2665 |\n"
-										+ "|\u2665 \u2665 \u2665|\n"
-										+ "|\u2665 \u2665 \u2665|\n"
-										+ "|\u2665 \u2665 \u2665|\n"
+										+ "|10 "+heart+" |\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
+										+ "|"+heart+" "+heart+" "+heart+"|\n"
 										+ "|____0I|"),
 						new Card( 37,10,
 								"JACK OF HEARTS\n"
 										+ " _____\n"
 										+ "|J    |\n"
 										+ "|     |\n"
-										+ "|  \u2665  |\n"
+										+ "|  "+heart+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 38,10,
@@ -323,7 +331,7 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|Q    |\n"
 										+ "|     |\n"
-										+ "|  \u2665  |\n"
+										+ "|  "+heart+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 39,10,
@@ -331,96 +339,100 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|K    |\n"
 										+ "|     |\n"
-										+ "|  \u2665  |\n"
+										+ "|  "+heart+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
+						
+						
+						//SPADES
+						
 						
 						new Card( 40,0,
 								"ACE OF SPADES\n"
 										+ " _____\n"
 										+ "|A    |\n"
 										+ "|     |\n"
-										+ "|  \u2660  |\n"
+										+ "|  "+spade+"  |\n"
 										+ "|     |\n"
 										+ "|____V| "),
 						new Card( 41,2,
 								"TWO OF SPADES \n"
 										+  " _____ \n"
 										+ "|2    |\n"
-										+ "|  \u2660  |\n"
+										+ "|  "+spade+"  |\n"
 										+ "|     |\n"
-										+ "|  \u2660  |\n"
+										+ "|  "+spade+"  |\n"
 										+ "|____Z|"),
 						new Card( 42,3,
 								"THREE OF SPADES\n"
 										+ " _____\n"
 										+ "|3    |\n"
-										+ "|  \u2660  |\n"
-										+ "|  \u2660  |\n"
-										+ "|  \u2660  |\n"
+										+ "|  "+spade+"  |\n"
+										+ "|  "+spade+"  |\n"
+										+ "|  "+spade+"  |\n"
 										+ "|____E| "),
 						new Card( 43,4,
 								"FOUR OF SPADES\n"
 										+ " _____ |\n"
 										+ "|4    |\n"
-										+ "| \u2660 \u2660 |\n"
+										+ "| "+spade+" "+spade+" |\n"
 										+ "|     |\n"
-										+ "| \u2660 \u2660 |\n"
+										+ "| "+spade+" "+spade+" |\n"
 										+ "|____h|"),
 						new Card( 44,5,
 								"FIVE OF SPADES\n"
 										+ " _____\n"
 										+ "|5    |\n"
-										+ "| \u2660 \u2660 |\n"
-										+ "|  \u2660  |\n"
-										+ "| \u2660 \u2660 |\n"
+										+ "| "+spade+" "+spade+" |\n"
+										+ "|  "+spade+"  |\n"
+										+ "| "+spade+" "+spade+" |\n"
 										+ "|____S|"),
 						new Card( 45,6,
 								"SIX OF SPADES\n"
 										+ " _____\n"
 										+ "|6    |\n"
-										+ "| \u2660 \u2660 |\n"
-										+ "| \u2660 \u2660 |\n"
-										+ "| \u2660 \u2660 |\n"
+										+ "| "+spade+" "+spade+" |\n"
+										+ "| "+spade+" "+spade+" |\n"
+										+ "| "+spade+" "+spade+" |\n"
 										+ "|____9|"),
 						new Card( 46,7,
 								"SEVEN OF SPADES\n"
 										+ " _____\n"
 										+ "|7    |\n"
-										+ "| \u2660 \u2660 |\n"
-										+ "|\u2660 \u2660 \u2663|\n"
-										+ "| \u2660 \u2660 |\n"
+										+ "| "+spade+" "+spade+" |\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
+										+ "| "+spade+" "+spade+" |\n"
 										+ "|____L|"),
 						new Card( 47,8,
 								"EIGHT OF SPADES\n"
 										+ " _____\n"
 										+ "|8    |\n"
-										+ "|\u2660 \u2660 \u2660|\n"
-										+ "| \u2660 \u2660 |\n"
-										+ "|\u2660 \u2660 \u2660|\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
+										+ "| "+spade+" "+spade+" |\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
 										+ "|____8|"),
 						new Card( 48,9,
 								"NINE OF SPADES\n"
 										+ " _____\n"
 										+ "|9    |\n"
-										+ "|\u2660 \u2660 \u2660|\n"
-										+ "|\u2660 \u2660 \u2660|\n"
-										+ "|\u2660 \u2660 \u2660|\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
 										+ "|____6|"),
 						new Card( 49,10,
 								"TEN OF SPADES\n"
 										+ " _____\n"
-										+ "|10 \u2660 |\n"
-										+ "|\u2660 \u2660 \u2660|\n"
-										+ "|\u2660 \u2660 \u2660|\n"
-										+ "|\u2660 \u2660 \u2660|\n"
+										+ "|10 "+spade+" |\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
+										+ "|"+spade+" "+spade+" "+spade+"|\n"
 										+ "|____0I|"),
 						new Card( 50,10,
 								"JACK OF SPADES\n"
 										+ " _____\n"
 										+ "|J    |\n"
 										+ "|     |\n"
-										+ "|  \u2660  |\n"
+										+ "|  "+spade+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 51,10,
@@ -428,7 +440,7 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|Q    |\n"
 										+ "|     |\n"
-										+ "|  \u2660  |\n"
+										+ "|  "+spade+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 52,10,
@@ -436,7 +448,7 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|K    |\n"
 										+ "|     |\n"
-										+ "|  \u2660  |\n"
+										+ "|  "+spade+"  |\n"
 										+ "|     |\n"
 										+ "|_____| ")
 						));

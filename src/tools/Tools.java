@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * This class contains static methods that will be used by other classes
  * 
- * @author Frank Vanegas, Jukka Rivas
+ * @author Frank Vanegas, Jukka Rivas, Ivan Causera
  */
 public class Tools {
 

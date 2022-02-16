@@ -10,6 +10,11 @@ import java.net.UnknownHostException;
 import tools.Card;
 import tools.CardDeck;
 
+/**
+ * This class manages the game with the players.
+ * 
+ * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ */
 public class Croupier implements Runnable {
 	
 	private Socket p1;
