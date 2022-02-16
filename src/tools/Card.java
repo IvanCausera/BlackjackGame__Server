@@ -3,7 +3,7 @@ package tools;
 /**
  * This class stores the information of a card.
  * 
- * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ * @author Ivan Causera, Frank Vanegas, Jukka Rivas
  */
 public class Card {
 	private int id;

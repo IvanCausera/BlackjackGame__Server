@@ -16,7 +16,7 @@ import java.util.Scanner;
 /**
  * This class will be executed by the player, it simulates the game and also manages the connection
  * 
- * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ * @author Ivan Causera, Frank Vanegas, Jukka Rivas
  */
 public class MainPlayer {
 	private static Scanner tec = new Scanner(System.in);
@@ -47,7 +47,6 @@ public class MainPlayer {
 		}
 
 		// Welcome the player
-
 		System.out.println("  / _ \\______________/`/\\+-/\\'\\'\\" + "\n" + "\\_\\(_)/_/ Black jack -+-    -+-+-"
 				+ "\n" + " _//o\\\\_             \\'\\/+-\\/`/`/" + "\n" + "  /   \\               \\/-+--\\/`/ ");
 
@@ -70,7 +69,11 @@ public class MainPlayer {
 		player.closePlayer();
 	}
 
-	// This method runs the basic game structure from the client perspective
+	/**
+	 * This method runs the basic game structure from the client perspective
+	 * @param user usernames
+	 * @return if the player wants to play again
+	 */
 	private boolean playerStart(String user) {
 		boolean playAgain = false;
 		try {
@@ -143,6 +146,10 @@ public class MainPlayer {
 		return playAgain;
 	}
 
+	/**
+	 * Starts one player round
+	 * @throws IOException
+	 */
 	private void playerRound() throws IOException {
 		// Read card depiction
 		String cardDepiction = reader.readUTF();
@@ -178,6 +185,10 @@ public class MainPlayer {
 		writer.flush();
 	}
 
+	/**
+	 * Reads and shows one coupier round
+	 * @throws IOException
+	 */
 	private void croupierRound() throws IOException {
 		// Read card depiction
 		String cardDepiction = reader.readUTF();
@@ -197,8 +208,11 @@ public class MainPlayer {
 		}
 	}
 
-	// This method checks if the address/port is correct, if not, the user reenters
-	// both
+	/**
+	 * This method connects and checks if the address/port is correct, if not, the user has to reenters both. 
+	 * @param address server address
+	 * @param port server port
+	 */
 	private void ConnectServer(String address, int port) {
 
 		try {
@@ -248,7 +262,10 @@ public class MainPlayer {
 		}
 	}
 	
-	// The method asks for the bet until a valid one is introduced by the user
+	/**
+	 * The method asks for the bet until a valid one is introduced by the user
+	 * @return player's bet
+	 */
 	private int introduceBet() {
 		int bet = 0;
 		boolean ok = true;
@@ -274,6 +291,9 @@ public class MainPlayer {
 		
 	}
 
+	/**
+	 * Close the socket
+	 */
 	private void closePlayer() {
 		try {
 			s.close();

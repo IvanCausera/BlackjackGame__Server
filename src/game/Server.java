@@ -9,7 +9,7 @@ import threads.Croupier;
 /**
  * This class executo the server that will create a thread for each new player.
  * 
- * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ * @author Ivan Causera, Frank Vanegas, Jukka Rivas
  */
 public class Server {
 	

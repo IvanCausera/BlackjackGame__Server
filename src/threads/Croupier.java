@@ -13,7 +13,7 @@ import tools.CardDeck;
 /**
  * This class manages the game with the players.
  * 
- * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ * @author Ivan Causera, Frank Vanegas, Jukka Rivas
  */
 public class Croupier implements Runnable {
 	
@@ -36,6 +36,9 @@ public class Croupier implements Runnable {
 		initialize();
 	}
 	
+	/**
+	 * Initialize all the variables
+	 */
 	private void initialize() {
 		p1Score = 0;
 		cScore = 0;
@@ -49,6 +52,9 @@ public class Croupier implements Runnable {
 		cardDeck = new CardDeck();
 	}
 	
+	/**
+	 * This method runs the basic game structure from the server perspective
+	 */
 	@Override
 	public void run() {
 		try {
@@ -60,6 +66,7 @@ public class Croupier implements Runnable {
 				boolean gameOver = false;
 				double jackpotPrize = 0;
 				int p1Bet = 0;
+				
 				//Read player bet
 				p1Bet = reader.readInt();
 
@@ -131,6 +138,10 @@ public class Croupier implements Runnable {
 		}
 	}
 	
+	/**
+	 * Starts one player round
+	 * @throws IOException
+	 */
 	private void playerRound() throws IOException {
 		Card p1Card = cardDeck.removeCard();
 		//Send card depiction
@@ -163,7 +174,10 @@ public class Croupier implements Runnable {
 		writer.flush();
 	}
 	
-	
+	/**
+	 * Starts one croupier round
+	 * @throws IOException
+	 */
 	private void croupierRound() throws IOException {
 		Card cCard = cardDeck.removeCard();
 		if (cCard.getScore() == 0) {

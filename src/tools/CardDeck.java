@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * This class sotres the information of a Card
  * 
- * @author Frank Vanegas, Jukka Rivas, Ivan Causera
+ * @author Ivan Causera, Frank Vanegas, Jukka Rivas
  */
 public class CardDeck {
 	private ArrayList<Card> cardDeck;
@@ -463,6 +463,9 @@ public class CardDeck {
 		return cardDeck.remove(Tools.randomNumber(0, cardDeck.size()));
 	}
 	
+	/**
+	 * Loads the symbols
+	 */
 	public void loadSymbols() {
 		if (System.getProperty("os.name").equals("Linux")) {
 			club = "\u2663";
