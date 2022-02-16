@@ -103,14 +103,22 @@ public class Croupier implements Runnable {
 					writer.writeBoolean(end);
 					if (end) {
 						//Write game over message
+						
+						// Both get 21
 						if ((p1Score == 21) && (cScore == 21)) writer.writeUTF("It's a draw, GAME OVER");
 						else {
+							// Both go bust
 							if (p1Bust && cBust) writer.writeUTF("Everyone has lost, GAME OVER");
+							// The player goes bust
 							else if (!p1Bust && cBust) writer.writeUTF("Congratulations player, you have won " + jackpotPrize + " $, GAME OVER");
+							// The croupier goes bust
 							else if (p1Bust && !cBust) writer.writeUTF("Croupier has won " + jackpotPrize + " $, GAME OVER");
+							// Both get the same score (under 21)
 							else if (p1Score == cScore) writer.writeUTF("It's a draw, GAME OVER");
 							else {
+								// Player wins by higher score
 								if (p1Score > cScore) writer.writeUTF("Congratulations player, you have won " + jackpotPrize + " $, GAME OVER");
+								// Croupier has the higher score
 								else writer.writeUTF("Croupier has won " + jackpotPrize + " $, GAME OVER");
 							}
 						}
@@ -179,7 +187,10 @@ public class Croupier implements Runnable {
 	 * @throws IOException
 	 */
 	private void croupierRound() throws IOException {
+		// Get the card
 		Card cCard = cardDeck.removeCard();
+		
+		// Choose the value of the Ace depending on the score
 		if (cCard.getScore() == 0) {
 			if (((cScore + 11) <= 17) && ((cScore + 11) <= 21)) cScore += 11;
 			else cScore++;
@@ -190,6 +201,7 @@ public class Croupier implements Runnable {
 		//Send croupier actual score
 		writer.writeInt(cScore);
 
+		// Checking if croupier goes bust
 		if (cScore > 21) {
 			p1Finished = true;
 			cFinished = true;

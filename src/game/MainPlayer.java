@@ -237,7 +237,7 @@ public class MainPlayer {
 					}
 
 				} catch (ConnectException | UnknownHostException e) {
-					// Request for new address if it was invalid
+					// Request for new address and port if it was invalid
 					System.out.println("You wrote: " + address + ":" + port + ". No response from the server.");
 
 					System.out.println("Reenter the server address please:");
@@ -275,11 +275,14 @@ public class MainPlayer {
 				bet = tec.nextInt();
 				tec.nextLine();
 
+				// Checks if the bet it under the minimum amount or over the maximum amount
 				if (bet < MINBET || bet > MAXBET) {
 					System.out.println("Your bet has to be over 2 $ and under 500 $, how much do you want to bet?");
 					ok = false;
 				} else
 					ok = true;
+				
+				// Ask again if the user enters an invalid format
 			} catch (InputMismatchException e) {
 				tec.nextLine();
 				System.out.println("Incorrect Format, how much do you want to bet?");
