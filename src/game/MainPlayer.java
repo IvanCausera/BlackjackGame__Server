@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.InetAddress;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -227,7 +228,7 @@ public class MainPlayer {
 						ok = true;
 					}
 					
-				} catch (ConnectException | UnknownHostException e) {
+				} catch (ConnectException | UnknownHostException | NoRouteToHostException e) {
 					// Request for new address if it was invalid
 					System.out.println("You wrote: " + address + ":" + port + ". No response from the server.");
 					

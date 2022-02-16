@@ -14,6 +14,14 @@ public class CardDeck {
 	 * Refresh the card deck
 	 */
 	public void RefreshDeck() {
+		//detectar SO
+		
+		//4 variables que representan
+		char club;
+		char heart;
+		char spade;
+		char diamond;
+		
 		cardDeck = new ArrayList<Card>(
 				Arrays.asList(
 						new Card( 1,0,
