@@ -27,13 +27,13 @@ public class CardDeck {
 		cardDeck = new ArrayList<Card>(
 				Arrays.asList(
 						new Card( 1,0,
-								  "ACE OF CLUBS\n"
-											+ " _____\n"
-											+ "|A    |\n"
-											+ "|     |\n"
-											+ "|  "+club+"|\n"
-											+ "|     |\n"
-											+ "|____V| "),
+								"ACE OF CLUBS\n"
+										+ " _____\n"
+										+ "|A    |\n"
+										+ "|     |\n"
+										+ "|  "+club+"  |\n"
+										+ "|     |\n"
+										+ "|____V| "),
 						new Card( 2,2,
 								 "TWO OF CLUBS \n"
 											+  " _____ \n"
@@ -131,15 +131,15 @@ public class CardDeck {
 										+ "|     |\n"
 										+ "|_____| "),
 						
-						new Card( 1,0,
-								  "ACE OF DIAMONDS\n"
-											+ " _____\n"
-											+ "|A    |\n"
-											+ "|     |\n"
-											+ "|  "+diamond+"|\n"
-											+ "|     |\n"
-											+ "|____V| "),
-						new Card( 2,2,
+						new Card( 14,0,
+								"ACE OF DIAMONDS\n"
+										+ " _____\n"
+										+ "|A    |\n"
+										+ "|     |\n"
+										+ "|  "+diamond+"  |\n"
+										+ "|     |\n"
+										+ "|____V| "),
+						new Card( 15,2,
 								 "TWO OF DIAMONDS \n"
 											+  " _____ \n"
 											+ "|2    |\n"
@@ -147,7 +147,7 @@ public class CardDeck {
 											+ "|     |\n"
 											+ "|  "+diamond+"  |\n"
 											+ "|____Z|"),
-						new Card( 3,3,
+						new Card( 16,3,
 								"THREE OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|3    |\n"
@@ -155,7 +155,7 @@ public class CardDeck {
 										+ "|  "+diamond+"  |\n"
 										+ "|  "+diamond+"  |\n"
 										+ "|____E| "),
-						new Card( 4,4,
+						new Card( 17,4,
 								"FOUR OF DIAMONDS\n"
 										+ " _____ |\n"
 										+ "|4    |\n"
@@ -163,7 +163,7 @@ public class CardDeck {
 										+ "|     |\n"
 										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____h|"),
-						new Card( 5,5,
+						new Card( 18,5,
 								"FIVE OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|5    |\n"
@@ -171,7 +171,7 @@ public class CardDeck {
 										+ "|  "+diamond+"  |\n"
 										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____S|"),
-						new Card( 6,6,
+						new Card( 19,6,
 								"SIX OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|6    |\n"
@@ -179,7 +179,7 @@ public class CardDeck {
 										+ "| "+diamond+" "+diamond+" |\n"
 										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____9|"),
-						new Card( 7,7,
+						new Card( 20,7,
 								"SEVEN OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|7    |\n"
@@ -187,7 +187,7 @@ public class CardDeck {
 										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____L|"),
-						new Card( 8,8,
+						new Card( 21,8,
 								"EIGHT OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|8    |\n"
@@ -195,7 +195,7 @@ public class CardDeck {
 										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|____8|"),
-						new Card( 9,9,
+						new Card( 22,9,
 								"NINE OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|9    |\n"
@@ -203,7 +203,7 @@ public class CardDeck {
 										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|____6|"),
-						new Card( 10,10,
+						new Card( 23,10,
 								"TEN OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|10 "+diamond+" |\n"
@@ -211,7 +211,7 @@ public class CardDeck {
 										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|____0I|"),
-						new Card( 11,10,
+						new Card( 24,10,
 								"JACK OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|J    |\n"
@@ -219,7 +219,7 @@ public class CardDeck {
 										+ "|  "+diamond+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
-						new Card( 12,10,
+						new Card( 25,10,
 								"QUEEN OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|Q    |\n"
@@ -227,7 +227,7 @@ public class CardDeck {
 										+ "|  "+diamond+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
-						new Card( 13,10,
+						new Card( 26,10,
 								"KING OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|K    |\n"
@@ -464,7 +464,7 @@ public class CardDeck {
 	}
 	
 	/**
-	 * Loads the symbols
+	 * Loads the symbols depending of the SO where the server is
 	 */
 	public void loadSymbols() {
 		if (System.getProperty("os.name").equals("Linux")) {

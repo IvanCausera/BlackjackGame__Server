@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import threads.Croupier;
 
 /**
- * This class executo the server that will create a thread for each new player.
+ * This class execute the server that will create a thread for each new player.
  * 
  * @author Ivan Causera, Frank Vanegas, Jukka Rivas
  */

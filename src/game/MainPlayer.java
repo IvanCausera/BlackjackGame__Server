@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
 /**
  * This class will be executed by the player, it simulates the game and also manages the connection
  * 
