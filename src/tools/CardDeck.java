@@ -30,87 +30,87 @@ public class CardDeck {
 											+ " _____\n"
 											+ "|A    |\n"
 											+ "|     |\n"
-											+ "|  \u2663  |\n"
+											+ "|  "+club+"|\n"
 											+ "|     |\n"
 											+ "|____V| "),
 						new Card( 2,2,
 								 "TWO OF CLUBS \n"
 											+  " _____ \n"
 											+ "|2    |\n"
-											+ "|  \u2663  |\n"
+											+ "|  "+club+"  |\n"
 											+ "|     |\n"
-											+ "|  \u2663  |\n"
+											+ "|  "+club+"  |\n"
 											+ "|____Z|"),
 						new Card( 3,3,
 								"THREE OF CLUBS\n"
 										+ " _____\n"
 										+ "|3    |\n"
-										+ "|  \u2663  |\n"
-										+ "|  \u2663  |\n"
-										+ "|  \u2663  |\n"
+										+ "|  "+club+"  |\n"
+										+ "|  "+club+"  |\n"
+										+ "|  "+club+"  |\n"
 										+ "|____E| "),
 						new Card( 4,4,
 								"FOUR OF CLUBS\n"
 										+ " _____ |\n"
 										+ "|4    |\n"
-										+ "| \u2663 \u2663 |\n"
+										+ "| "+club+" "+club+" |\n"
 										+ "|     |\n"
-										+ "| \u2663 \u2663 |\n"
+										+ "| "+club+" "+club+" |\n"
 										+ "|____h|"),
 						new Card( 5,5,
 								"FIVE OF CLUBS\n"
 										+ " _____\n"
 										+ "|5    |\n"
-										+ "| \u2663 \u2663 |\n"
-										+ "|  \u2663  |\n"
-										+ "| \u2663 \u2663 |\n"
+										+ "| "+club+" "+club+" |\n"
+										+ "|  "+club+"  |\n"
+										+ "| "+club+" "+club+" |\n"
 										+ "|____S|"),
 						new Card( 6,6,
 								"SIX OF CLUBS\n"
 										+ " _____\n"
 										+ "|6    |\n"
-										+ "| \u2663 \u2663 |\n"
-										+ "| \u2663 \u2663 |\n"
-										+ "| \u2663 \u2663 |\n"
+										+ "| "+club+" "+club+" |\n"
+										+ "| "+club+" "+club+" |\n"
+										+ "| "+club+" "+club+" |\n"
 										+ "|____9|"),
 						new Card( 7,7,
 								"SEVEN OF CLUBS\n"
 										+ " _____\n"
 										+ "|7    |\n"
-										+ "| \u2663 \u2663 |\n"
-										+ "|\u2663 \u2663 \u2663|\n"
-										+ "| \u2663 \u2663 |\n"
+										+ "| "+club+" "+club+" |\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
+										+ "| "+club+" "+club+" |\n"
 										+ "|____L|"),
 						new Card( 8,8,
 								"EIGHT OF CLUBS\n"
 										+ " _____\n"
 										+ "|8    |\n"
-										+ "|\u2663 \u2663 \u2663|\n"
-										+ "| \u2663 \u2663 |\n"
-										+ "|\u2663 \u2663 \u2663|\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
+										+ "| "+club+" "+club+" |\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
 										+ "|____8|"),
 						new Card( 9,9,
 								"NINE OF CLUBS\n"
 										+ " _____\n"
 										+ "|9    |\n"
-										+ "|\u2663 \u2663 \u2663|\n"
-										+ "|\u2663 \u2663 \u2663|\n"
-										+ "|\u2663 \u2663 \u2663|\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
 										+ "|____6|"),
 						new Card( 10,10,
 								"TEN OF CLUBS\n"
 										+ " _____\n"
-										+ "|10 \u2663 |\n"
-										+ "|\u2663 \u2663 \u2663|\n"
-										+ "|\u2663 \u2663 \u2663|\n"
-										+ "|\u2663 \u2663 \u2663|\n"
+										+ "|10 "+club+" |\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
+										+ "|"+club+" "+club+" "+club+"|\n"
 										+ "|____0I|"),
 						new Card( 11,10,
 								"JACK OF CLUBS\n"
 										+ " _____\n"
 										+ "|J    |\n"
 										+ "|     |\n"
-										+ "|  \u2663  |\n"
+										+ "|  "+club+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 12,10,
@@ -118,7 +118,7 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|Q    |\n"
 										+ "|     |\n"
-										+ "|  \u2663  |\n"
+										+ "|  "+club+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						new Card( 13,10,
@@ -126,92 +126,91 @@ public class CardDeck {
 										+ " _____\n"
 										+ "|K    |\n"
 										+ "|     |\n"
-										+ "|  \u2663  |\n"
+										+ "|  "+club+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
 						
-						new Card( 14,0,
-								"ACE OF DIAMONDS\n"
-										+ " _____\n"
-										+ "|A    |\n"
-										+ "|     |\n"
-										+ "|  \u2666  |\n"
-										+ "|     |\n"
-										+ "|____V| "),
-						new Card( 15,2,
-								"TWO OF DIAMONDS \n"
-										+  " _____ \n"
-										+ "|2    |\n"
-										+ "|  \u2666  |\n"
-										+ "|     |\n"
-										+ "|  \u2666  |\n"
-										+ "|____Z|"),
-						new Card( 16,3,
+						new Card( 1,0,
+								  "ACE OF DIAMONDS\n"
+											+ " _____\n"
+											+ "|A    |\n"
+											+ "|     |\n"
+											+ "|  "+diamond+"|\n"
+											+ "|     |\n"
+											+ "|____V| "),
+						new Card( 2,2,
+								 "TWO OF DIAMONDS \n"
+											+  " _____ \n"
+											+ "|2    |\n"
+											+ "|  "+diamond+"  |\n"
+											+ "|     |\n"
+											+ "|  "+diamond+"  |\n"
+											+ "|____Z|"),
+						new Card( 3,3,
 								"THREE OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|3    |\n"
-										+ "|  \u2666  |\n"
-										+ "|  \u2666  |\n"
-										+ "|  \u2666  |\n"
+										+ "|  "+diamond+"  |\n"
+										+ "|  "+diamond+"  |\n"
+										+ "|  "+diamond+"  |\n"
 										+ "|____E| "),
-						new Card( 17,4,
+						new Card( 4,4,
 								"FOUR OF DIAMONDS\n"
 										+ " _____ |\n"
 										+ "|4    |\n"
-										+ "| \u2666 \u2666 |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|     |\n"
-										+ "| \u2666 \u2666 |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____h|"),
-						new Card( 18,5,
+						new Card( 5,5,
 								"FIVE OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|5    |\n"
-										+ "| \u2666 \u2666 |\n"
-										+ "|  \u2666  |\n"
-										+ "| \u2666 \u2666 |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
+										+ "|  "+diamond+"  |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____S|"),
-						new Card( 19,6,
+						new Card( 6,6,
 								"SIX OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|6    |\n"
-										+ "| \u2666 \u2666 |\n"
-										+ "| \u2666 \u2666 |\n"
-										+ "| \u2666 \u2666 |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____9|"),
-						new Card( 20,7,
+						new Card( 7,7,
 								"SEVEN OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|7    |\n"
-										+ "| \u2666 \u2666 |\n"
-										+ "|\u2666 \u2666 \u2666|\n"
-										+ "| \u2666 \u2666 |\n"
+										+ "| "+diamond+" "+diamond+" |\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
+										+ "| "+diamond+" "+diamond+" |\n"
 										+ "|____L|"),
-						new Card( 21,8,
+						new Card( 8,8,
 								"EIGHT OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|8    |\n"
-										+ "|\u2666 \u2666 \u2666|\n"
-										+ "| \u2666 \u2666 |\n"
-										+ "|\u2666 \u2666 \u2666|\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
+										+ "| "+diamond+" "+diamond+" |\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|____8|"),
-						new Card( 22,9,
+						new Card( 9,9,
 								"NINE OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|9    |\n"
-										+ "|\u2666 \u2666 \u2666|\n"
-										+ "|\u2666 \u2666 \u2666|\n"
-										+ "|\u2666 \u2666 \u2666|\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|____6|"),
-						new Card( 23,10,
+						new Card( 10,10,
 								"TEN OF DIAMONDS\n"
 										+ " _____\n"
-										+ "|10 \u2666 |\n"
-										+ "|\u2666 \u2666 \u2666|\n"
-										+ "|\u2666 \u2666 \u2666|\n"
-										+ "|\u2666 \u2666 \u2666|\n"
+										+ "|10 "+diamond+" |\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
+										+ "|"+diamond+" "+diamond+" "+diamond+"|\n"
 										+ "|____0I|"),
-						
-						new Card( 24,10,
+						new Card( 11,10,
 								"JACK OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|J    |\n"
@@ -219,7 +218,7 @@ public class CardDeck {
 										+ "|  "+diamond+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
-						new Card( 25,10,
+						new Card( 12,10,
 								"QUEEN OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|Q    |\n"
@@ -227,7 +226,7 @@ public class CardDeck {
 										+ "|  "+diamond+"  |\n"
 										+ "|     |\n"
 										+ "|_____| "),
-						new Card( 26,10,
+						new Card( 13,10,
 								"KING OF DIAMONDS\n"
 										+ " _____\n"
 										+ "|K    |\n"
