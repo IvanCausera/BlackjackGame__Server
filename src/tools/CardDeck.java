@@ -5,6 +5,10 @@ import java.util.Arrays;
 
 public class CardDeck {
 	private ArrayList<Card> cardDeck;
+	private String club;
+	private String heart;
+	private String spade;
+	private String diamond;
 	
 	public CardDeck() {
 		RefreshDeck();
@@ -14,14 +18,6 @@ public class CardDeck {
 	 * Refresh the card deck
 	 */
 	public void RefreshDeck() {
-		//detectar SO
-		
-		//4 variables que representan
-		char club;
-		char heart;
-		char spade;
-		char diamond;
-		
 		cardDeck = new ArrayList<Card>(
 				Arrays.asList(
 						new Card( 1,0,
@@ -453,5 +449,19 @@ public class CardDeck {
 	 */
 	public Card removeCard() {
 		return cardDeck.remove(Tools.randomNumber(0, cardDeck.size()));
+	}
+	
+	public void loadSymbols() {
+		if (System.getProperty("os.name").equals("Linux")) {
+			club = "\u2663";
+			heart = "\u2665";
+			spade = "\u2660";
+			diamond = "\u2666";
+		} else {
+			club = "C";
+			heart = "H";
+			spade = "S";
+			diamond = "D";
+		}
 	}
 }
